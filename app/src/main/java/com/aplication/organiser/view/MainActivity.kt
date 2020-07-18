@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aplication.organiser.R
-import com.aplication.organiser.viewmodel.NoteViewModel
+import com.aplication.organiser.viewmodel.MainActivityViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var noteViewModel: NoteViewModel
+    private lateinit var mainActivityViewModel: MainActivityViewModel
     private lateinit var noteAdapter: NoteAdapter
     private lateinit var recyclerView: RecyclerView
 
@@ -50,17 +50,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setViewModelObserver() {
-        noteViewModel.getAllNotes().observe(this, Observer { allNotes ->
+        mainActivityViewModel.getAllNotes().observe(this, Observer { allNotes ->
             noteAdapter.setNotes(allNotes)
         })
     }
 
     private fun setUpViewModel() {
-        noteViewModel = ViewModelProvider(
+        mainActivityViewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
         ).get(
-            NoteViewModel::class.java
+            MainActivityViewModel::class.java
         )
     }
 }

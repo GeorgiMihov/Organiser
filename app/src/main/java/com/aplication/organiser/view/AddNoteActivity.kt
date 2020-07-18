@@ -6,14 +6,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.NumberPicker
+import androidx.lifecycle.ViewModelProvider
 import com.aplication.organiser.DomainConstants
 import com.aplication.organiser.R
+import com.aplication.organiser.database.NoteDbModel
+import com.aplication.organiser.viewmodel.AddNoteActivityViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class AddNoteActivity : AppCompatActivity() {
     private lateinit var noteTitle: EditText
     private lateinit var description: EditText
     private lateinit var priority: NumberPicker
+
+    private lateinit var addNoteActivityViewModel: AddNoteActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +27,8 @@ class AddNoteActivity : AppCompatActivity() {
         setUpUIElements()
         setNumberPickerBoundaries()
         setUpActionBar()
+
+        setUpViewModel()
     }
 
     private fun setUpUIElements() {
@@ -38,6 +45,15 @@ class AddNoteActivity : AppCompatActivity() {
     private fun setUpActionBar() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
         title = DomainConstants.ADD_NOTE_ACTIVITY_TITLE
+    }
+
+    private fun setUpViewModel() {
+        addNoteActivityViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(this.application)
+        ).get(
+            AddNoteActivityViewModel::class.java
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -62,15 +78,17 @@ class AddNoteActivity : AppCompatActivity() {
         val priority: Int = priority.value
 
         if (isNoteComplete(title, description)) {
-            TODO("NEEDS TO HAVE A ViewModel to properly save a note")
+            val newNote = NoteDbModel(title, description, priority)
+            addNoteActivityViewModel.insert(newNote)
+
+            showSnackbar("Note created successfully")
         } else {
             showSnackbar("Please enter a title and description")
         }
     }
 
     private fun showSnackbar(message: String) {
-        val snackbar =
-            Snackbar.make(findViewById(R.id.add_note_root_view), message, Snackbar.LENGTH_SHORT)
+        val snackbar = Snackbar.make(findViewById(R.id.add_note_root_view), message, Snackbar.LENGTH_SHORT)
         snackbar.show()
     }
 
