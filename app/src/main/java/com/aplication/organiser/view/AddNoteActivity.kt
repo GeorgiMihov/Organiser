@@ -81,9 +81,9 @@ class AddNoteActivity : AppCompatActivity() {
             val newNote = NoteDbModel(title, description, priority)
             addNoteActivityViewModel.insert(newNote)
 
-            showSnackbar("Note created successfully")
+            showSnackbar(DomainConstants.NOTE_CREATED)
         } else {
-            showSnackbar("Please enter a title and description")
+            showSnackbar(DomainConstants.INCOMPLETE_NOTE)
         }
     }
 

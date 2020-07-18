@@ -40,4 +40,8 @@ open class NoteAdapter(private var notes: List<NoteDbModel> = ArrayList()) : Rec
         notifyDataSetChanged()
     }
 
+    fun getNoteAt(position: Int): NoteDbModel {
+        return notes[position]
+    }
+
 }
