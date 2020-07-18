@@ -9,11 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddNoteActivityViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: NoteRepository
-
-    init {
-        repository = NoteRepository(application)
-    }
+    private val repository: NoteRepository = NoteRepository(application)
 
     fun insert(note: NoteDbModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(note)

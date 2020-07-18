@@ -26,13 +26,6 @@ class NoteRepository(application: Application) {
 
     suspend fun deleteAllNotes() = noteDao.deleteAllNotes()
 
-    //This function is purely for testing purposes
-    suspend fun fillDataBase() {
-        noteDao.insert(NoteDbModel("Title1", "Description1", 1))
-        noteDao.insert(NoteDbModel("Title2", "Description2", 2))
-        noteDao.insert(NoteDbModel("Title3", "Description3", 3))
-    }
-
     fun getAllNotes(): LiveData<List<NoteDbModel>> {
         return allNotes
     }
