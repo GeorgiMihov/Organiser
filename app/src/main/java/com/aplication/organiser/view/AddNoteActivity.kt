@@ -113,11 +113,11 @@ class AddNoteActivity : AppCompatActivity() {
             newNote.id = intent.getIntExtra(EXTRA_ID, DomainConstants.INVALID_ID)
             addNoteActivityViewModel.update(newNote)
 
-            showSnackbar(DomainConstants.NOTE_UPDATED)
+            finish()
         } else {
             addNoteActivityViewModel.insert(newNote)
 
-            showSnackbar(DomainConstants.NOTE_CREATED)
+            finish()
         }
     }
 
