@@ -1,14 +1,18 @@
 package com.aplication.organiser.view
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aplication.organiser.R
 import com.aplication.organiser.database.NoteDbModel
 
-open class NoteAdapter(private var notes: List<NoteDbModel> = ArrayList(), private val listener: OnItemClickListener) : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
+open class NoteAdapter(private val listener: OnItemClickListener) : ListAdapter<NoteDbModel, NoteAdapter.NoteHolder>(DiffCallback()) {
 
     inner class NoteHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.note_title)
@@ -18,7 +22,7 @@ open class NoteAdapter(private var notes: List<NoteDbModel> = ArrayList(), priva
         init {
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(notes[adapterPosition])
+                    listener.onItemClick(getItem(adapterPosition))
                 }
 
             }
@@ -32,33 +36,30 @@ open class NoteAdapter(private var notes: List<NoteDbModel> = ArrayList(), priva
         return NoteHolder(itemView)
     }
 
-    override fun getItemCount(): Int {
-        return notes.size
-    }
-
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
-        val currentNote = notes[position]
+        val currentNote = getItem(position)
 
         holder.title.text = currentNote.title
         holder.description.text = currentNote.description
         holder.priority.text = currentNote.priority.toString()
     }
 
-    fun setNotes(notes: List<NoteDbModel>) {
-        this.notes = notes
-        notifyDataSetChanged()
-    }
-
     fun getNoteAt(position: Int): NoteDbModel {
-        return notes[position]
+        return getItem(position)
     }
 
     interface OnItemClickListener {
         fun onItemClick(note: NoteDbModel)
     }
 
-    public fun setOnItemClickListener(listener: OnItemClickListener) {
+    class DiffCallback : DiffUtil.ItemCallback<NoteDbModel>() {
+        override fun areItemsTheSame(oldItem: NoteDbModel, newItem: NoteDbModel): Boolean {
+            return oldItem.id == newItem.id
+        }
 
+        override fun areContentsTheSame(oldItem: NoteDbModel, newItem: NoteDbModel): Boolean {
+            return oldItem == newItem
+        }
     }
 
 }

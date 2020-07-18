@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity(), NoteAdapter.OnItemClickListener {
 
     private fun setViewModelObserver() {
         mainActivityViewModel.getAllNotes().observe(this, Observer { allNotes ->
-            noteAdapter.setNotes(allNotes)
+            noteAdapter.submitList(allNotes)
         })
     }
 
