@@ -18,4 +18,9 @@ class AddNoteActivityViewModel(application: Application) : AndroidViewModel(appl
     fun insert(note: NoteDbModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(note)
     }
+
+    fun update(note: NoteDbModel) = viewModelScope.launch(Dispatchers.IO) {
+        repository.update(note)
+    }
+
 }

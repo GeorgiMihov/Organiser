@@ -8,12 +8,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aplication.organiser.R
 import com.aplication.organiser.database.NoteDbModel
 
-open class NoteAdapter(private var notes: List<NoteDbModel> = ArrayList()) : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
+open class NoteAdapter(private var notes: List<NoteDbModel> = ArrayList(), private val listener: OnItemClickListener) : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
 
     inner class NoteHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.note_title)
         val description: TextView = itemView.findViewById(R.id.note_description)
         val priority: TextView = itemView.findViewById(R.id.note_priority)
+
+        init {
+            itemView.setOnClickListener {
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(notes[adapterPosition])
+                }
+
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
@@ -42,6 +51,14 @@ open class NoteAdapter(private var notes: List<NoteDbModel> = ArrayList()) : Rec
 
     fun getNoteAt(position: Int): NoteDbModel {
         return notes[position]
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(note: NoteDbModel)
+    }
+
+    public fun setOnItemClickListener(listener: OnItemClickListener) {
+
     }
 
 }

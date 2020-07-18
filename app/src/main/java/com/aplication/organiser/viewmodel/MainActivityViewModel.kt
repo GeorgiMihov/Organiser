@@ -18,10 +18,6 @@ class MainActivityViewModel(application: Application): AndroidViewModel(applicat
         allNotes = repository.getAllNotes()
     }
 
-    fun update(note: NoteDbModel) = viewModelScope.launch(Dispatchers.IO) {
-        repository.update(note)
-    }
-
     fun delete(note: NoteDbModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.delete(note)
     }

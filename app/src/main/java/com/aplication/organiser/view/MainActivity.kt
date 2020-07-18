@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aplication.organiser.DomainConstants
 import com.aplication.organiser.R
+import com.aplication.organiser.database.NoteDbModel
 import com.aplication.organiser.viewmodel.MainActivityViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NoteAdapter.OnItemClickListener {
     private lateinit var mainActivityViewModel: MainActivityViewModel
     private lateinit var noteAdapter: NoteAdapter
     private lateinit var recyclerView: RecyclerView
@@ -44,8 +45,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setRecyclerViewAdapter() {
-        noteAdapter = NoteAdapter()
+        noteAdapter = NoteAdapter(listener = this)
         recyclerView.adapter = noteAdapter
+    }
+
+    override fun onItemClick(note: NoteDbModel) {
+        val editIntent = Intent(this, AddNoteActivity::class.java)
+
+        editIntent.putExtra(AddNoteActivity.EXTRA_ID, note.id)
+        editIntent.putExtra(AddNoteActivity.EXTRA_TITLE, note.title)
+        editIntent.putExtra(AddNoteActivity.EXTRA_DESCRIPTION, note.description)
+        editIntent.putExtra(AddNoteActivity.EXTRA_PRIORITY, note.priority)
+
+        startActivity(editIntent)
     }
 
     private fun setUpFloatingActionButton() {
