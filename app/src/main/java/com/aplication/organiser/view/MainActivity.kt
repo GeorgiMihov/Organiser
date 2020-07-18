@@ -1,5 +1,6 @@
 package com.aplication.organiser.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aplication.organiser.R
 import com.aplication.organiser.viewmodel.NoteViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
     private lateinit var noteViewModel: NoteViewModel
@@ -20,6 +22,8 @@ class MainActivity : AppCompatActivity() {
 
         setUpRecyclerView()
         setRecyclerViewAdapter()
+
+        setUpFloatingActionButton()
 
         setUpViewModel()
         setViewModelObserver()
@@ -35,6 +39,14 @@ class MainActivity : AppCompatActivity() {
     private fun setRecyclerViewAdapter() {
         noteAdapter = NoteAdapter()
         recyclerView.adapter = noteAdapter
+    }
+
+    private fun setUpFloatingActionButton() {
+        val floatingActionButton = findViewById<FloatingActionButton>(R.id.add_note)
+        floatingActionButton.setOnClickListener { _ ->
+            val intent = Intent(this, AddNoteActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setViewModelObserver() {

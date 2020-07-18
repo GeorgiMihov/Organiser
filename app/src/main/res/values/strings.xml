@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Organiser</string>
+
     <string name="title_placeholder">Title</string>
     <string name="description_placeholder">Description</string>
     <string name="priority_placeholder">1</string>
+
+    <string name="title_hint">Title</string>
+    <string name="description_hint">Description</string>
+    <string name="priority_hint">Priority:</string>
+
+    <string name="title_save">Save</string>
 </resources>
